@@ -46,3 +46,21 @@ addDelayJob();
 
 
 // await job.remove() --> to delete a delayed job
+
+async function addReliableJob(){
+    const job = await myQueue.add(
+        'send-invoice-email',
+        {invoiceId: 'inv_999', email: 'client@example.com'},
+        {
+            // highlight start
+            attempts: 4, // Try the job 4 times before marking it as failed
+            backoff: {
+                type: 'exponential',
+                delay: 5000, // base delay
+            }
+
+        }
+    )
+    console.log(`Job added with retry policy. ID:${job.id}`);
+}
+addReliableJob();

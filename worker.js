@@ -15,6 +15,9 @@ console.log(`[Worker] Sending email to ${job.data.email}...`);
 await new Promise((resolve) => setTimeout(resolve, 2000));
 
 console.log(`[Worker] Job ${job.id} completed`)
+
+//simulating api failure
+throw new Error('Third party email API is down (503 service unavailable)')
 },{connection,
 
     concurrency: 5 // This worker will now process up to 5 jobs at a time
